@@ -1,0 +1,32 @@
+package professor;
+import java.util.ArrayList;
+
+import java.util.Scanner;
+import java.util.*;
+
+public class ProfessorMgt {
+
+	public static void professor(){
+		int i = 0;
+		int[] professorId = new int[100];
+		String[] professorName = new String[100];
+		
+		for(i = 0; i< 4; i++){
+		System.out.println("Enter professor name");
+		Scanner sc = new Scanner(System.in);
+	    professorName[i] = sc.nextLine(); 
+	    System.out.println("Enter professor ID");
+	    professorId[i] = sc.nextInt();
+	    
+		}
+		
+		for(i=0; i<4; i++){
+			System.out.println(professorName[i]);
+			System.out.println(professorId[i]);
+		}
+		
+		
+	}
+	
+	
+}
