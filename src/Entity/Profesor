@@ -1,0 +1,37 @@
+package professor;
+import java.util.ArrayList;
+
+public class Professor implements java.io.Serializable {
+	
+	private int professorId;
+	private String professorName;
+	private ArrayList<Professor> professor;
+	
+	public Professor(String professorName, int professorId){
+		this.professorId = professorId;
+		this.professorName = professorName;
+		
+	}
+
+    public String getProfessorName(){
+    	
+    	return professorName;
+    }
+    
+    public void setProfessorName(String professorName){
+    	
+    	this.professorName = professorName;
+    }
+ 
+    public int getProfessorId(){
+    	
+    	return professorId;
+    }
+    
+    public void setProfessorId(int professorId){
+    	
+    	this.professorId = professorId;
+    	
+    }
+    
+}
