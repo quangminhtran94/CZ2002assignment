@@ -1,0 +1,22 @@
+package lecture;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
+
+public class LectureMgt {
+	
+	//private ArrayList<Lecture> lecture;
+	int o = 0;
+	ArrayList<String> lecture = new ArrayList<String>();	
+	public void addLecture(){
+		
+		
+			System.out.println("Enter lecture hall: ");
+			Scanner sc = new Scanner(System.in);
+	        
+			public ArrayList<Lecture> listOfAllLecture = new ArrayList<Lecture>();
+		
+
+}
+	}
