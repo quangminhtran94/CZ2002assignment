@@ -29,4 +29,8 @@ public class CourseComponent {
     public void addStudent(Student s){
 
     }
+
+    public void printStudent(){
+
+    }
 }

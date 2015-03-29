@@ -160,7 +160,7 @@ public class Course {
 	 * print students list in lecture, lab or tutorial group
 	 * here I suppose there lecture, lab and tutorial implements 1 interface called Slot
 	 */
-	public void printStudentListByGroup(Slot s){
-		s.printStudent();
+	public void printStudentListByGroup(CourseComponent component){
+		component.printStudent();
 	}
 }
