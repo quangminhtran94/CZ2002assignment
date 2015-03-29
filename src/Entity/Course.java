@@ -104,22 +104,22 @@ public class Course {
 		else{
 			System.out.println("Choose lecture slot: ");
 			for(index = 0; index< lecture.size(); index++)
-				System.out.print(index + " " + lecture[o].getName());
+				System.out.print(index + " " + lecture.get(index).getName());
 			Scanner input = new Scanner(System.in);
 			index = input.nextInt();
-			lecture.addStudent(Student s);
+			lecture.get(index).addStudent(s);
 			
 			System.out.println("Choose tutorial slot: ");
 			for(index = 0; index< tutorial.size(); index++)
-				System.out.print(index + " " + tutorial[o].getName());
+				System.out.print(index + " " + tutorial.get(index).getName());
 			index = input.nextInt();
-			tuorial.addStudent(Student s);
+			tutorial.get(index).addStudent(s);
 			
 			System.out.println("Choose lab slot: ");
 			for(index = 0; index< lab.size(); index++)
-				System.out.print(index + " " + lab[o].getName());
+				System.out.print(index + " " + lab.get(index).getName());
 			index = input.nextInt();
-			lab.addStudent(Student s);
+			lab.get(index).addStudent(s);
 			
 			this.student.add(s);
 			this.vacancy--;

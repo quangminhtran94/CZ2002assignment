@@ -1,5 +1,5 @@
 package Entity;
 
-public class Lab {
+public class Lab extends CourseComponent {
 
 }

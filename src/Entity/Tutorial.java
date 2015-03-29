@@ -1,5 +1,5 @@
 package Entity;
 
-public class Tutorial {
+public class Tutorial extends CourseComponent {
 
 }
