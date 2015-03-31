@@ -1,38 +1,14 @@
-package tutorial;
+package Entity;
+
 import java.util.ArrayList;
 
-public class Tutorial implements java.io.Serializable {
-
-	
-		private int tutorialId;
-		private String tutorialName;
-		private ArrayList<Tutorial> tutorial;
-		
-		public Tutorial(String tutorialName, int tutorialId){
-			this.tutorialId = tutorialId;
-			this.tutorialName = tutorialName;
-			
-		}
-
-	    public String getTutorialName(){
-	    	
-	    	return tutorialName;
-	    }
-	    
-	    public void setTutorialName(String tutorialName){
-	    	
-	    	this.tutorialName = tutorialName;
-	    }
-	 
-	    public int getTutorialId(){
-	    	
-	    	return tutorialId;
-	    }
-	    
-	    public void setTutorialId(int tutorialId){
-	    	
-	    	this.tutorialId = tutorialId;
-	    	
-	    }
+public class Tutorial extends CourseComponent implements java.io.Serializable {
+	public Tutorial(String name) {
+		super(name);
 	}
+
+	public Tutorial(String name, ArrayList<Student> student) {
+		super(name, student);
+	}
+}
 

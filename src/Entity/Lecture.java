@@ -1,24 +1,12 @@
-package lecture;
+package Entity;
+
 import java.util.ArrayList;
-public class Lecture implements java.io.Serializable {
-
-	private String lecture;
-	private String lectureName;
-	
-	public Lecture(String lecture){
-		this.lecture = lecture;
-		
-	}
-
-   
-    public String getName(){
-    	
-    	return lecture;
+public class Lecture extends CourseComponent implements java.io.Serializable {
+    public Lecture(String name) {
+        super(name);
     }
-    
-    public void setName(String lecture){
-    	
-    	this.lecture = lecture;
-    	
+
+    public Lecture(String name, ArrayList<Student> student) {
+        super(name, student);
     }
 }

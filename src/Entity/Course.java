@@ -1,4 +1,5 @@
 package Entity;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -6,30 +7,24 @@ import java.util.Scanner;
 public class Course {
 
 	private int course_id;
-	private ArrayList<Student> student;
 	private String name;
 	private int vacancy;
+	private ArrayList<Student> student;
 	private ArrayList<Lecture> lecture;
 	private ArrayList<Tutorial> tutorial;
 	private ArrayList<Lab> lab;
 	private int examWeight;
-	private int[] courseWorkWeight;
-	
-	public Course(int course_id, ArrayList<Student> student, String name,
-			int vacancy, ArrayList<Lecture> lecture,
-			ArrayList<Tutorial> tutorial, ArrayList<Lab> lab, int examWeight,
-			int[] courseWorkWeight) {
-		super();
-		this.course_id = course_id;
-		this.student = student;
-		this.name = name;
-		this.vacancy = vacancy;
-		this.lecture = lecture;
-		this.tutorial = tutorial;
-		this.lab = lab;
-		this.examWeight = examWeight;
-		this.courseWorkWeight = courseWorkWeight;
+	private ArrayList<Integer> courseWorkWeight;
+
+	public Course(){
+		this.student = new ArrayList<Student>();
+		this.lecture = new ArrayList<Lecture>();
+		this.tutorial = new ArrayList<Tutorial>();
+		this.lab = new ArrayList<Lab>();
+		this.courseWorkWeight = new ArrayList<Integer>();
+
 	}
+
 	
 	
 	/**
@@ -86,13 +81,61 @@ public class Course {
 		this.examWeight = examWeight;
 	}
 
-	public int[] getCourseWorkWeight() {
+	public ArrayList<Integer> getCourseWorkWeight() {
 		return courseWorkWeight;
 	}
 
-	public void setCourseWorkWeight(int[] courseWorkWeight) {
+	public void setCourseWorkWeight(ArrayList<Integer> courseWorkWeight) {
 		this.courseWorkWeight = courseWorkWeight;
 	}
+
+
+	/**
+	 * create a course
+	 */
+	public void create(){
+		Scanner input = new Scanner(System.in);
+		System.out.println("Enter course Id: ");
+		this.course_id = input.nextInt();
+		System.out.println("Enter course name: ");
+		this.name = input.next();
+		System.out.println("Enter course vacancy: ");
+		this.vacancy = input.nextInt();
+
+		System.out.println("Enter lectures (end when enter exit): ");
+		String name = input.next();
+		while(!name.equals("exit")){
+			this.lecture.add(new Lecture(name));
+			name = input.next();
+		}
+
+		System.out.println("Enter tutorial (end when enter exit): ");
+		name = input.next();
+		while(!name.equals("exit")){
+			this.tutorial.add(new Tutorial(name));
+			name = input.next();
+		}
+
+		System.out.println("Enter lab (end when enter exit): ");
+		name = input.next();
+		while(!name.equals("exit")){
+			this.lab.add(new Lab(name));
+			name = input.next();
+		}
+
+		System.out.print("Enter exam mark weight: ");
+		this.examWeight = input.nextInt();
+
+		System.out.print("Enter courseworks weight end with -1: ");
+		int weight = input.nextInt();
+		while(weight != -1){
+			this.courseWorkWeight.add(weight);
+			weight = input.nextInt();
+		}
+
+		System.out.println("Course created successfully!");
+	}
+
 	
 	/**
 	 * Add a student to a course, requiring to enter lecture, tutorial and lab slot.
@@ -133,7 +176,24 @@ public class Course {
 		else
 			return true;
 	}
-	
+
+	/**
+	 * Print information of the course
+	 */
+	public void printInfo(){
+		for (Field field : this.getClass().getDeclaredFields()) {
+			field.setAccessible(true);
+			String name = field.getName();
+			Object value = null;
+			try {
+				value = field.get(this);
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			System.out.printf("Field name: %s, Field value: %s%n", name, value);
+		}
+	}
+
 	/**
 	 * enter course mark for students in this course
 	 */
@@ -158,7 +218,7 @@ public class Course {
 
 	/**
 	 * print students list in lecture, lab or tutorial group
-	 * here I suppose there lecture, lab and tutorial implements 1 interface called Slot
+	 * here I suppose there lecture, lab and tutorial implements 1 interface called CourseComponent
 	 */
 	public void printStudentListByGroup(CourseComponent component){
 		component.printStudent();
