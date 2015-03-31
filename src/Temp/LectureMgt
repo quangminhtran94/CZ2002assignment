@@ -1,22 +1,34 @@
 package lecture;
 import java.util.ArrayList;
+import lecture.Lecture;
 import java.util.Scanner;
 
-
-
-public class LectureMgt {
+public class LectureMgt{
 	
-	//private ArrayList<Lecture> lecture;
-	int o = 0;
-	ArrayList<String> lecture = new ArrayList<String>();	
-	public void addLecture(){
+	private LectureMgt(){};
+	public static int addLecture(){
+		ArrayList lectureId = new ArrayList();
+		System.out.println("Enter lecture to add");
+		Scanner sc = new Scanner(System.in);
+		int Id = sc.nextInt();
+		lectureId.add(Id);
 		
+		System.out.println(Id + " is added");
+		return Id;
 		
-			System.out.println("Enter lecture hall: ");
-			Scanner sc = new Scanner(System.in);
-	        
-			public ArrayList<Lecture> listOfAllLecture = new ArrayList<Lecture>();
-		
-
-}
 	}
+
+public void printLecture(){
+	
+	
+	
+}
+
+	
+	
+}
+
+
+
+
+
