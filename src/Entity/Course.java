@@ -9,7 +9,7 @@ public class Course {
 	private int course_id;
 	private String name;
 	private int vacancy;
-	private ArrayList<Student> student;
+	private ArrayList<Student> students;
 	private ArrayList<Lecture> lecture;
 	private ArrayList<Tutorial> tutorial;
 	private ArrayList<Lab> lab;
@@ -17,7 +17,7 @@ public class Course {
 	private ArrayList<Integer> courseWorkWeight;
 
 	public Course(){
-		this.student = new ArrayList<Student>();
+		this.students = new ArrayList<Student>();
 		this.lecture = new ArrayList<Lecture>();
 		this.tutorial = new ArrayList<Tutorial>();
 		this.lab = new ArrayList<Lab>();
@@ -37,10 +37,10 @@ public class Course {
 		this.course_id = course_id;
 	}
 	public ArrayList<Student> getStudent() {
-		return student;
+		return students;
 	}
-	public void setStudent(ArrayList<Student> student) {
-		this.student = student;
+	public void setStudent(ArrayList<Student> students) {
+		this.students = students;
 	}
 	public String getName() {
 		return name;
@@ -142,31 +142,32 @@ public class Course {
 	 */
 	public void addStudent(Student s){
 		int index;
-		if (this.student.contains(s))
+		if (this.students.contains(s))
 			System.out.println("This student has already added to this course!");
 		else{
 			System.out.println("Choose lecture slot: ");
 			for(index = 0; index< lecture.size(); index++)
-				System.out.print(index + " " + lecture.get(index).getName());
+				System.out.print(index + " " + lecture.get(index).getName() + "\n");
 			Scanner input = new Scanner(System.in);
 			index = input.nextInt();
 			lecture.get(index).addStudent(s);
 			
 			System.out.println("Choose tutorial slot: ");
 			for(index = 0; index< tutorial.size(); index++)
-				System.out.print(index + " " + tutorial.get(index).getName());
+				System.out.print(index + " " + tutorial.get(index).getName() + "\n");
 			index = input.nextInt();
 			tutorial.get(index).addStudent(s);
 			
 			System.out.println("Choose lab slot: ");
 			for(index = 0; index< lab.size(); index++)
-				System.out.print(index + " " + lab.get(index).getName());
+				System.out.print(index + " " + lab.get(index).getName() + "\n");
 			index = input.nextInt();
 			lab.get(index).addStudent(s);
 			
-			this.student.add(s);
+			this.students.add(s);
 			this.vacancy--;
 			s.addCourse(this);
+			System.out.println("Student " + s.getName() + " has been added to course " + this.getName() +" successfully");
 		}			
 	}
 	
@@ -206,7 +207,18 @@ public class Course {
 	 * enter exam mark for students in this course
 	 */
 	public void enterExamMark(){
-		
+		Scanner input = new Scanner(System.in);
+		for (Student student : this.students){
+			System.out.print("Enter final exam mark for " + student.getName() + " with id " + student.getId() + ": ");
+			int mark = input.nextInt();
+			for (Record record : student.getRecords()){
+				if (record.getCourse().equals(this)){
+					record.setFinalMark(mark);
+					break;
+				}else
+					continue;
+			}
+		}
 	}
 	
 	/**
