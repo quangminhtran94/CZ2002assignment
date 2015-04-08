@@ -7,19 +7,21 @@ import java.util.ArrayList;
  */
 public class CourseComponent {
     private String name;
-    ArrayList<Student> student;
+    Course course;
+    ArrayList<Student> students;
 
     /**
      * constructor
      */
-    public CourseComponent(String name){
+    public CourseComponent(String name, Course course){
         this.name = name;
-        this.student = new ArrayList<Student>();
+        this.course = course;
+        this.students = new ArrayList<Student>();
     }
 
-    public CourseComponent(String name, ArrayList<Student> student) {
+    public CourseComponent(String name, ArrayList<Student> students) {
         this.name = name;
-        this.student = student;
+        this.students = students;
     }
 
     /**
@@ -29,27 +31,40 @@ public class CourseComponent {
         return name;
     }
 
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
     public ArrayList<Student> getStudent() {
-        return student;
+        return students;
     }
 
     public void setStudent(ArrayList<Student> student) {
-        this.student = student;
+        this.students = student;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+
+
+
     public String toString(){
         return name;
     }
 
     public void addStudent(Student s){
-
+        this.students.add(s);
     }
 
     public void printStudent(){
-
+        System.out.println("List of student in "+ this.toString());
+        for(Student student:this.students)
+            System.out.println(student.getId() + "  " + student.getName());
     }
 }

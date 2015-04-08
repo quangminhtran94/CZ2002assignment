@@ -10,22 +10,24 @@ public class Course {
 	private String name;
 	private int vacancy;
 	private ArrayList<Student> students;
-	private ArrayList<Lecture> lecture;
-	private ArrayList<Tutorial> tutorial;
-	private ArrayList<Lab> lab;
+	private ArrayList<Lecture> lectures;
+	private ArrayList<Tutorial> tutorials;
+	private ArrayList<Lab> labs;
 	private int examWeight;
 	private ArrayList<Integer> courseWorkWeight;
 
 	public Course(){
 		this.students = new ArrayList<Student>();
-		this.lecture = new ArrayList<Lecture>();
-		this.tutorial = new ArrayList<Tutorial>();
-		this.lab = new ArrayList<Lab>();
+		this.lectures = new ArrayList<Lecture>();
+		this.tutorials = new ArrayList<Tutorial>();
+		this.labs = new ArrayList<Lab>();
 		this.courseWorkWeight = new ArrayList<Integer>();
 
 	}
 
-	
+	public String toString(){
+		return this.name;
+	}
 	
 	/**
 	 * getter and setter method
@@ -55,22 +57,22 @@ public class Course {
 		this.vacancy = vacancy;
 	}
 	public ArrayList<Lecture> getLecture() {
-		return lecture;
+		return lectures;
 	}
-	public void setLecture(ArrayList<Lecture> lecture) {
-		this.lecture = lecture;
+	public void setLecture(ArrayList<Lecture> lectures) {
+		this.lectures = lectures;
 	}
 	public ArrayList<Tutorial> getTutorial() {
-		return tutorial;
+		return tutorials;
 	}
-	public void setTutorial(ArrayList<Tutorial> tutorial) {
-		this.tutorial = tutorial;
+	public void setTutorial(ArrayList<Tutorial> tutorials) {
+		this.tutorials = tutorials;
 	}
 	public ArrayList<Lab> getLab() {
-		return lab;
+		return labs;
 	}
-	public void setLab(ArrayList<Lab> lab) {
-		this.lab = lab;
+	public void setLab(ArrayList<Lab> labs) {
+		this.labs = labs;
 	}
 	
 	public int getExamWeight() {
@@ -102,24 +104,24 @@ public class Course {
 		System.out.println("Enter course vacancy: ");
 		this.vacancy = input.nextInt();
 
-		System.out.println("Enter lectures (end when enter exit): ");
+		System.out.println("Enter lecturess (end when enter exit): ");
 		String name = input.next();
 		while(!name.equals("exit")){
-			this.lecture.add(new Lecture(name));
+			this.lectures.add(new Lecture(name, this));
 			name = input.next();
 		}
 
-		System.out.println("Enter tutorial (end when enter exit): ");
+		System.out.println("Enter tutorials (end when enter exit): ");
 		name = input.next();
 		while(!name.equals("exit")){
-			this.tutorial.add(new Tutorial(name));
+			this.tutorials.add(new Tutorial(name, this));
 			name = input.next();
 		}
 
-		System.out.println("Enter lab (end when enter exit): ");
+		System.out.println("Enter labs (end when enter exit): ");
 		name = input.next();
 		while(!name.equals("exit")){
-			this.lab.add(new Lab(name));
+			this.labs.add(new Lab(name, this));
 			name = input.next();
 		}
 
@@ -138,31 +140,31 @@ public class Course {
 
 	
 	/**
-	 * Add a student to a course, requiring to enter lecture, tutorial and lab slot.
+	 * Add a student to a course, requiring to enter lectures, tutorials and labs slot.
 	 */
 	public void addStudent(Student s){
 		int index;
 		if (this.students.contains(s))
 			System.out.println("This student has already added to this course!");
 		else{
-			System.out.println("Choose lecture slot: ");
-			for(index = 0; index< lecture.size(); index++)
-				System.out.print(index + " " + lecture.get(index).getName() + "\n");
+			System.out.println("Choose lectures slot: ");
+			for(index = 0; index< lectures.size(); index++)
+				System.out.print(index + " " + lectures.get(index).getName() + "\n");
 			Scanner input = new Scanner(System.in);
 			index = input.nextInt();
-			lecture.get(index).addStudent(s);
+			lectures.get(index).addStudent(s);
 			
-			System.out.println("Choose tutorial slot: ");
-			for(index = 0; index< tutorial.size(); index++)
-				System.out.print(index + " " + tutorial.get(index).getName() + "\n");
+			System.out.println("Choose tutorials slot: ");
+			for(index = 0; index< tutorials.size(); index++)
+				System.out.print(index + " " + tutorials.get(index).getName() + "\n");
 			index = input.nextInt();
-			tutorial.get(index).addStudent(s);
+			tutorials.get(index).addStudent(s);
 			
-			System.out.println("Choose lab slot: ");
-			for(index = 0; index< lab.size(); index++)
-				System.out.print(index + " " + lab.get(index).getName() + "\n");
+			System.out.println("Choose labs slot: ");
+			for(index = 0; index< labs.size(); index++)
+				System.out.print(index + " " + labs.get(index).getName() + "\n");
 			index = input.nextInt();
-			lab.get(index).addStudent(s);
+			labs.get(index).addStudent(s);
 			
 			this.students.add(s);
 			this.vacancy--;
@@ -199,9 +201,26 @@ public class Course {
 	 * enter course mark for students in this course
 	 */
 	public void enterCourseMark(){
-		
+		Scanner input = new Scanner(System.in);
+		System.out.print("There are " + this.courseWorkWeight.size() +" course marks required with weight of ");
+		for(Integer weight : this.courseWorkWeight)
+			System.out.print(weight * (100 - this.examWeight) / 100 + "% ");
+		System.out.println("respectively, please enter all marks required in order:");
+		for(Student student : this.students){
+			System.out.print("Enter coursework marks for " + student.getName() + " with id " + student.getId() + ": ");
+			ArrayList<Integer> marks = new ArrayList<Integer>();
+			for (int i = 0; i < this.courseWorkWeight.size(); i++)
+				marks.add(input.nextInt());
+			for (Record record : student.getRecords()){
+				if (record.getCourse().equals(this)){
+					record.setCourseworkMark(marks);
+					break;
+				}else
+					continue;
+			}
+		}
 	}
-	
+
 	
 	/**
 	 * enter exam mark for students in this course
@@ -225,14 +244,45 @@ public class Course {
 	 * print course statistic
 	 */
 	public void printStatistic(){
-		
+		int sumFinalMark = 0;
+		int sumCourseWorkMark = 0;
+		for(Student student:this.students){
+			for (Record record : student.getRecords()){
+				if (record.getCourse().equals(this)){
+					sumFinalMark += record.getFinalMark();
+					for(int i = 0; i < this.courseWorkWeight.size(); i++) {
+						sumCourseWorkMark += record.getCourseworkMark().get(i) * this.courseWorkWeight.get(i) / 100;
+					}
+					break;
+				}else
+					continue;
+			}
+		}
+		int aveFinal = sumFinalMark/this.students.size();
+		int aveCourseWork = sumCourseWorkMark/this.students.size();
+		int aveTotal = aveFinal * this.examWeight / 100 + aveCourseWork * (100-this.examWeight) / 100;
+		System.out.println("Average exam mark: " + aveFinal + " Average coursework mark: " + aveCourseWork
+		+ " Average total mark " + aveTotal);
 	}
 
+
+
+
 	/**
-	 * print students list in lecture, lab or tutorial group
-	 * here I suppose there lecture, lab and tutorial implements 1 interface called CourseComponent
+	 * print students list in lectures, labs or tutorials group
+	 * here I suppose there lectures, labs and tutorials implements 1 interface called CourseComponent
 	 */
-	public void printStudentListByGroup(CourseComponent component){
-		component.printStudent();
+	public void printStudentListByGroup(String type)
+	{
+		if(type.equals("lectures")){
+			for(Lecture lecture:this.lectures)
+				lecture.printStudent();
+		}else if(type.equals("tutorials")){
+			for(Tutorial tutorial:this.tutorials)
+				tutorial.printStudent();
+		}else{
+			for(Lab lab:this.labs)
+				lab.printStudent();
+		}
 	}
 }

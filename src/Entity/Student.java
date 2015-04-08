@@ -1,5 +1,6 @@
 package Entity;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,6 +9,10 @@ public class Student {
     private String name;
     private ArrayList<Course> courses;
     private ArrayList<Record> records;
+
+    public String toString(){
+        return this.name + " with id " + this.id;
+    }
 
     /**
      * getter and setter
@@ -84,4 +89,36 @@ public class Student {
             this.records.add(new Record(this, c));
         }
     }
+
+    /**
+     * calculate average mark for all records of this student
+     */
+    public void calculateAverage(){
+        for(Record record:this.records)
+            record.calculateAverage();
+    }
+
+    /**
+     * Print statistic
+     */
+    public void printTranscript() {
+        this.calculateAverage();
+        System.out.println("Transcript of student " + this.toString());
+        System.out.println();
+        for(Record record:this.records)
+            record.print();
+        int aveGrade = 0;
+        int aveCourseWork = 0;
+        for(Record record:this.records){
+            aveGrade += record.getAveTotal();
+            aveCourseWork += record.getAveCourseWork();
+        }
+        aveGrade = aveGrade / this.records.size();
+        aveCourseWork = aveCourseWork / this.records.size();
+        System.out.println("Average Grade:      " + aveGrade);
+        System.out.println("Average Courseworkmakr:     " + aveCourseWork);
+        System.out.println();
+    }
+
+
 }
