@@ -1,4 +1,6 @@
 package Entity;
+import Control.Utility;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -98,14 +100,13 @@ public class Course {
 	public void create(){
 		Scanner input = new Scanner(System.in);
 		System.out.println("Enter course Id: ");
-		this.course_id = input.nextInt();
+		this.course_id = Utility.getIntervalInput(1, Integer.MAX_VALUE);
 		System.out.println("Enter course name: ");
-		this.name = input.next();
+		this.name = input.nextLine();
 		System.out.println("Enter course vacancy: ");
-		this.vacancy = input.nextInt();
-
-		System.out.println("Enter lecturess (end when enter exit): ");
-		String name = input.next();
+		this.vacancy = Utility.getIntervalInput(1, Integer.MAX_VALUE);
+		System.out.println("Enter lectures (end when enter exit): ");
+		String name = input.nextLine();
 		while(!name.equals("exit")){
 			this.lectures.add(new Lecture(name, this));
 			name = input.next();
@@ -126,14 +127,9 @@ public class Course {
 		}
 
 		System.out.print("Enter exam mark weight: ");
-		this.examWeight = input.nextInt();
-
-		System.out.print("Enter courseworks weight end with -1: ");
-		int weight = input.nextInt();
-		while(weight != -1){
-			this.courseWorkWeight.add(weight);
-			weight = input.nextInt();
-		}
+		this.examWeight = Utility.getIntervalInput(1, 100);
+		System.out.print("Enter courseworks weight (sum is 100): ");
+		this.courseWorkWeight = Utility.getSumInput(100);
 
 		System.out.println("Course created successfully!");
 	}
@@ -149,21 +145,21 @@ public class Course {
 		else{
 			System.out.println("Choose lectures slot: ");
 			for(index = 0; index< lectures.size(); index++)
-				System.out.print(index + " " + lectures.get(index).getName() + "\n");
+				System.out.print((index+1) + " " + lectures.get(index).getName() + "\n");
 			Scanner input = new Scanner(System.in);
-			index = input.nextInt();
+			index = Utility.getIntervalInput(1, lectures.size()) - 1;
 			lectures.get(index).addStudent(s);
 			
 			System.out.println("Choose tutorials slot: ");
 			for(index = 0; index< tutorials.size(); index++)
-				System.out.print(index + " " + tutorials.get(index).getName() + "\n");
-			index = input.nextInt();
+				System.out.print((index+1) + " " + tutorials.get(index).getName() + "\n");
+			index = Utility.getIntervalInput(1, tutorials.size()) - 1;
 			tutorials.get(index).addStudent(s);
 			
 			System.out.println("Choose labs slot: ");
 			for(index = 0; index< labs.size(); index++)
-				System.out.print(index + " " + labs.get(index).getName() + "\n");
-			index = input.nextInt();
+				System.out.print((index + 1) + " " + labs.get(index).getName() + "\n");
+			index = Utility.getIntervalInput(1, labs.size()) - 1;
 			labs.get(index).addStudent(s);
 			
 			this.students.add(s);
@@ -200,6 +196,9 @@ public class Course {
 	/**
 	 * enter course mark for students in this course
 	 */
+	/**
+	 * TODO: add validator
+	 */
 	public void enterCourseMark(){
 		Scanner input = new Scanner(System.in);
 		System.out.print("There are " + this.courseWorkWeight.size() +" course marks required with weight of ");
@@ -210,7 +209,7 @@ public class Course {
 			System.out.print("Enter coursework marks for " + student.getName() + " with id " + student.getId() + ": ");
 			ArrayList<Integer> marks = new ArrayList<Integer>();
 			for (int i = 0; i < this.courseWorkWeight.size(); i++)
-				marks.add(input.nextInt());
+				marks.add(Utility.getIntervalInput(0, 100));
 			for (Record record : student.getRecords()){
 				if (record.getCourse().equals(this)){
 					record.setCourseworkMark(marks);
@@ -229,7 +228,7 @@ public class Course {
 		Scanner input = new Scanner(System.in);
 		for (Student student : this.students){
 			System.out.print("Enter final exam mark for " + student.getName() + " with id " + student.getId() + ": ");
-			int mark = input.nextInt();
+			int mark = Utility.getIntervalInput(0,100);
 			for (Record record : student.getRecords()){
 				if (record.getCourse().equals(this)){
 					record.setFinalMark(mark);
@@ -274,15 +273,27 @@ public class Course {
 	 */
 	public void printStudentListByGroup(String type)
 	{
-		if(type.equals("lectures")){
-			for(Lecture lecture:this.lectures)
-				lecture.printStudent();
-		}else if(type.equals("tutorials")){
-			for(Tutorial tutorial:this.tutorials)
-				tutorial.printStudent();
-		}else{
-			for(Lab lab:this.labs)
-				lab.printStudent();
+		Scanner input = new Scanner(System.in);
+		while(true){
+			if(type.equals("lecture")){
+				for(Lecture lecture:this.lectures){
+					lecture.printStudent();
+				}
+				break;
+			}else if(type.equals("tutorial")){
+				for(Tutorial tutorial:this.tutorials) {
+					tutorial.printStudent();
+				}
+				break;
+			}else if(type.equals("lab")){
+				for(Lab lab:this.labs) {
+					lab.printStudent();
+				}
+				break;
+			}else{
+				System.out.print("Please enter valid input [lecture/tutorial/lab]: ");
+				type = input.nextLine();
+			}
 		}
 	}
 }

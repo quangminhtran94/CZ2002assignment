@@ -1,5 +1,7 @@
 package Entity;
 
+import Control.Utility;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -71,9 +73,9 @@ public class Student {
     public void create(){
         Scanner input = new Scanner(System.in);
         System.out.print("Enter student Id: ");
-        this.id = input.nextInt();
+        this.id = Utility.getIntervalInput(1, Integer.MAX_VALUE);
         System.out.println("Enter student name: ");
-        this.name = input.next();
+        this.name = input.nextLine();
     }
 
 
@@ -116,7 +118,7 @@ public class Student {
         aveGrade = aveGrade / this.records.size();
         aveCourseWork = aveCourseWork / this.records.size();
         System.out.println("Average Grade:      " + aveGrade);
-        System.out.println("Average Courseworkmakr:     " + aveCourseWork);
+        System.out.println("Average Courseworkmark:     " + aveCourseWork);
         System.out.println();
     }
 

@@ -64,7 +64,11 @@ public class CourseComponent {
 
     public void printStudent(){
         System.out.println("List of student in "+ this.toString());
-        for(Student student:this.students)
-            System.out.println(student.getId() + "  " + student.getName());
+        int index = 1;
+        for(Student student:this.students){
+            System.out.println(index + ". " + student.toString());
+            index++;
+        }
+
     }
 }
