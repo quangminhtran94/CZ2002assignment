@@ -31,80 +31,71 @@ public class Application {
     public static void main(String[] args) {
         ArrayList<Student> students = new ArrayList<Student>();
         ArrayList<Course> courses = new ArrayList<Course>();
+        CourseManager courseMng = new CourseManager();
+        StudentManager studentMng = new StudentManager();
         Course tempCourse;
         Student tempStudent;
         int choice = 0;
         int noStudent, noCourse;
         Scanner input = new Scanner(System.in);
+
+
         printMenu();
         choice = Utility.getIntervalInput(1,10);
         while (choice < 10){
             switch(choice){
                 case 1:
                     tempCourse = new Course();
-                    tempCourse.create();
+                    courseMng.create(tempCourse);
                     courses.add(tempCourse);
                     break;
                 case 2:
-                    System.out.println("Test");
                     tempStudent = new Student();
-                    tempStudent.create();
+                    studentMng.create(tempStudent);
                     students.add(tempStudent);
                     break;
                 case 3:
                     System.out.println("Enter the number of student you want to add (not the id): ");
-                    for (int i = 0; i < students.size(); i++)
-                        System.out.println((i+1) +". " + students.get(i).toString());
+                    studentMng.printStudentsList(students);
                     noStudent = Utility.getIntervalInput(1, students.size()) - 1;
                     System.out.println("Enter the number of course you want to add choosen student (not the id): ");
-                    for (int i = 0; i < courses.size(); i++)
-                        System.out.println((i+1) +". " + courses.get(i).toString());
+                    courseMng.printCoursesList(courses);
                     noCourse = Utility.getIntervalInput(1, courses.size()) - 1;
-                    courses.get(noCourse).addStudent(students.get(noStudent));
+                    courseMng.addStudent(courses.get(noCourse), students.get(noStudent));
                     break;
                 case 4:
                     System.out.println("Enter the number of course you want to check vacancy (not the id): ");
-                    for (int i = 0; i < courses.size(); i++)
-                        System.out.println((i+1) +". " + courses.get(i).toString());
+                    courseMng.printCoursesList(courses);
                     noCourse = Utility.getIntervalInput(1, courses.size()) - 1;
-                    if(courses.get(noCourse).isVacancy())
-                        System.out.println("This course has available vacancies");
-                    else
-                        System.out.println("This course has no vacancy!!");
+                    courseMng.checkVacancy(courses.get(noCourse));
                     break;
                 case 5:
-                    System.out.println("Enter the number of course you want to print student list (not the id): ");
-                    for (int i = 0; i < courses.size(); i++)
-                        System.out.println((i+1) +". " + courses.get(i).toString());
+                    System.out.println("Enter the number of course you want to print students list (not the id): ");
+                    courseMng.printCoursesList(courses);
                     noCourse = Utility.getIntervalInput(1, courses.size()) - 1;
-                    System.out.println("Do you want to print accordingly to [lecture/tutorial/lab]: ");
-                    courses.get(noCourse).printStudentListByGroup(input.nextLine());
+                    courseMng.printStudentListByGroup(courses.get(noCourse));
                     break;
                 case 6:
                     System.out.println("Enter the number of course you want to enter coursework marks (not the id): ");
-                    for (int i = 0; i < courses.size(); i++)
-                        System.out.println((i+1) +". " + courses.get(i).toString());
+                    courseMng.printCoursesList(courses);
                     noCourse = Utility.getIntervalInput(1, courses.size()) - 1;
-                    courses.get(noCourse).enterCourseMark();
+                    courseMng.enterCourseMark(courses.get(noCourse));
                     break;
                 case 7:
                     System.out.println("Enter the number of course you want to enter final marks (not the id): ");
-                    for (int i = 0; i < courses.size(); i++)
-                        System.out.println((i+1) +". " + courses.get(i).toString());
+                    courseMng.printCoursesList(courses);
                     noCourse = Utility.getIntervalInput(1, courses.size())- 1;
-                    courses.get(noCourse).enterExamMark();
+                    courseMng.enterExamMark(courses.get(noCourse));
                     break;
                 case 8:
                     System.out.println("Enter the number of course you want to print statistic (not the id): ");
-                    for (int i = 0; i < courses.size(); i++)
-                        System.out.println((i+1) +". " + courses.get(i).toString());
+                    courseMng.printCoursesList(courses);
                     noCourse = Utility.getIntervalInput(1, courses.size()) - 1;
-                    courses.get(noCourse).printStatistic();
+                    courseMng.printStatistic(courses.get(noCourse));
                     break;
                 case 9:
                     System.out.println("Enter the number of student you want to print transcript (not the id): ");
-                    for (int i = 0; i < students.size(); i++)
-                        System.out.println((i+1) +". " + students.get(i).toString());
+                    studentMng.printStudentsList(students);
                     noStudent = Utility.getIntervalInput(1, students.size()) - 1;
                     students.get(noStudent).printTranscript();
                     break;

@@ -12,6 +12,7 @@ public class Student {
     private ArrayList<Course> courses;
     private ArrayList<Record> records;
 
+
     public String toString(){
         return this.name + " with id " + this.id;
     }

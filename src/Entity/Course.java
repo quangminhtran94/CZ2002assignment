@@ -196,28 +196,29 @@ public class Course {
 	/**
 	 * enter course mark for students in this course
 	 */
-	/**
-	 * TODO: add validator
-	 */
 	public void enterCourseMark(){
-		Scanner input = new Scanner(System.in);
-		System.out.print("There are " + this.courseWorkWeight.size() +" course marks required with weight of ");
-		for(Integer weight : this.courseWorkWeight)
-			System.out.print(weight * (100 - this.examWeight) / 100 + "% ");
-		System.out.println("respectively, please enter all marks required in order:");
-		for(Student student : this.students){
-			System.out.print("Enter coursework marks for " + student.getName() + " with id " + student.getId() + ": ");
-			ArrayList<Integer> marks = new ArrayList<Integer>();
-			for (int i = 0; i < this.courseWorkWeight.size(); i++)
-				marks.add(Utility.getIntervalInput(0, 100));
-			for (Record record : student.getRecords()){
-				if (record.getCourse().equals(this)){
-					record.setCourseworkMark(marks);
-					break;
-				}else
-					continue;
+		if (this.hasAnyStudent()){
+			Scanner input = new Scanner(System.in);
+			System.out.print("There are " + this.courseWorkWeight.size() +" course marks required with weight of ");
+			for(Integer weight : this.courseWorkWeight)
+				System.out.print(weight * (100 - this.examWeight) / 100 + "% ");
+			System.out.println("respectively, please enter all marks required in order:");
+			for(Student student : this.students){
+				System.out.print("Enter coursework marks for " + student.getName() + " with id " + student.getId() + ": ");
+				ArrayList<Integer> marks = new ArrayList<Integer>();
+				for (int i = 0; i < this.courseWorkWeight.size(); i++)
+					marks.add(Utility.getIntervalInput(0, 100));
+				for (Record record : student.getRecords()){
+					if (record.getCourse().equals(this)){
+						record.setCourseworkMark(marks);
+						break;
+					}else
+						continue;
+				}
 			}
-		}
+		}else
+			System.out.println("This course has no student!");
+
 	}
 
 	
@@ -225,43 +226,54 @@ public class Course {
 	 * enter exam mark for students in this course
 	 */
 	public void enterExamMark(){
-		Scanner input = new Scanner(System.in);
-		for (Student student : this.students){
-			System.out.print("Enter final exam mark for " + student.getName() + " with id " + student.getId() + ": ");
-			int mark = Utility.getIntervalInput(0,100);
-			for (Record record : student.getRecords()){
-				if (record.getCourse().equals(this)){
-					record.setFinalMark(mark);
-					break;
-				}else
-					continue;
+		if (this.hasAnyStudent()){
+			Scanner input = new Scanner(System.in);
+			for (Student student : this.students){
+				System.out.print("Enter final exam mark for " + student.getName() + " with id " + student.getId() + ": ");
+				int mark = Utility.getIntervalInput(0,100);
+				for (Record record : student.getRecords()){
+					if (record.getCourse().equals(this)){
+						record.setFinalMark(mark);
+						break;
+					}else
+						continue;
+				}
 			}
-		}
+		}else
+			System.out.println("This course has no student!");
 	}
 	
 	/**
 	 * print course statistic
 	 */
 	public void printStatistic(){
-		int sumFinalMark = 0;
-		int sumCourseWorkMark = 0;
-		for(Student student:this.students){
-			for (Record record : student.getRecords()){
-				if (record.getCourse().equals(this)){
-					sumFinalMark += record.getFinalMark();
-					for(int i = 0; i < this.courseWorkWeight.size(); i++) {
-						sumCourseWorkMark += record.getCourseworkMark().get(i) * this.courseWorkWeight.get(i) / 100;
-					}
-					break;
-				}else
-					continue;
+		if (this.hasAnyStudent()){
+			int sumFinalMark = 0;
+			int sumCourseWorkMark = 0;
+			if(this.students.isEmpty()){
+				System.out.println("This course has no student!!!");
+				return;
 			}
-		}
-		int aveFinal = sumFinalMark/this.students.size();
-		int aveCourseWork = sumCourseWorkMark/this.students.size();
-		int aveTotal = aveFinal * this.examWeight / 100 + aveCourseWork * (100-this.examWeight) / 100;
-		System.out.println("Average exam mark: " + aveFinal + " Average coursework mark: " + aveCourseWork
-		+ " Average total mark " + aveTotal);
+			for(Student student:this.students){
+				for (Record record : student.getRecords()){
+					if (record.getCourse().equals(this)){
+						sumFinalMark += record.getFinalMark();
+						for(int i = 0; i < this.courseWorkWeight.size(); i++) {
+							sumCourseWorkMark += record.getCourseworkMark().get(i) * this.courseWorkWeight.get(i) / 100;
+						}
+						break;
+					}else
+						continue;
+				}
+			}
+			int aveFinal = sumFinalMark/this.students.size();
+			int aveCourseWork = sumCourseWorkMark/this.students.size();
+			int aveTotal = aveFinal * this.examWeight / 100 + aveCourseWork * (100-this.examWeight) / 100;
+			System.out.println("Average exam mark: " + aveFinal + " Average coursework mark: " + aveCourseWork
+					+ " Average total mark " + aveTotal);
+		}else
+			System.out.println("This course has no student!");
+
 	}
 
 
@@ -271,29 +283,39 @@ public class Course {
 	 * print students list in lectures, labs or tutorials group
 	 * here I suppose there lectures, labs and tutorials implements 1 interface called CourseComponent
 	 */
-	public void printStudentListByGroup(String type)
-	{
-		Scanner input = new Scanner(System.in);
-		while(true){
-			if(type.equals("lecture")){
-				for(Lecture lecture:this.lectures){
-					lecture.printStudent();
+	public void printStudentListByGroup(String type){
+		if (this.hasAnyStudent()){
+			Scanner input = new Scanner(System.in);
+			while(true){
+				if(type.equals("lecture")){
+					for(Lecture lecture:this.lectures){
+						lecture.printStudent();
+					}
+					break;
+				}else if(type.equals("tutorial")){
+					for(Tutorial tutorial:this.tutorials) {
+						tutorial.printStudent();
+					}
+					break;
+				}else if(type.equals("lab")){
+					for(Lab lab:this.labs) {
+						lab.printStudent();
+					}
+					break;
+				}else{
+					System.out.print("Please enter valid input [lecture/tutorial/lab]: ");
+					type = input.nextLine();
 				}
-				break;
-			}else if(type.equals("tutorial")){
-				for(Tutorial tutorial:this.tutorials) {
-					tutorial.printStudent();
-				}
-				break;
-			}else if(type.equals("lab")){
-				for(Lab lab:this.labs) {
-					lab.printStudent();
-				}
-				break;
-			}else{
-				System.out.print("Please enter valid input [lecture/tutorial/lab]: ");
-				type = input.nextLine();
 			}
-		}
+		}else
+			System.out.println("This course has no student!");
+
+	}
+
+	private boolean hasAnyStudent(){
+		if (this.students.isEmpty())
+			return false;
+		else
+			return true;
 	}
 }
