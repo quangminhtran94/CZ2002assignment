@@ -1,6 +1,7 @@
 package Control;
 
 import Entity.Course;
+import Entity.Professor;
 import Entity.Student;
 
 import java.util.ArrayList;
@@ -20,8 +21,8 @@ public class CourseManager {
      * Create a course
      * @param c the course want to create
      */
-    public void create(Course c){
-        c.create();
+    public void create(Course c, ArrayList<Professor> professors){
+        c.create(professors);
         System.out.print("\n\n");
     }
 

@@ -15,12 +15,14 @@ public class Application {
     public static void main(String[] args) {
         ArrayList<Student> students = new ArrayList<Student>();
         ArrayList<Course> courses = new ArrayList<Course>();
+        ArrayList<Professor> professors = new ArrayList<Professor>();
         CourseManager courseMng = new CourseManager();
         StudentManager studentMng = new StudentManager();
         Course tempCourse;
         Student tempStudent;
         int choice = 0;
         int noStudent, noCourse;
+        professors.add(new Professor(1, "minh"));
         Scanner input = new Scanner(System.in);
 
 
@@ -30,7 +32,7 @@ public class Application {
             switch(choice){
                 case 1:
                     tempCourse = new Course();
-                    courseMng.create(tempCourse);
+                    courseMng.create(tempCourse, professors);
                     courses.add(tempCourse);
                     courseMng.printCoursesList(courses);
                     break;

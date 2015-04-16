@@ -48,15 +48,20 @@ public class Course {
 	private ArrayList<Integer> courseWorkWeight;
 
 	/**
+	 * professor that coordinate the course
+	 */
+	private Professor professor;
+	/**
 	 * constructor Course()
 	 */
+
+
 	public Course(){
 		this.students = new ArrayList<Student>();
 		this.lectures = new ArrayList<Lecture>();
 		this.tutorials = new ArrayList<Tutorial>();
 		this.labs = new ArrayList<Lab>();
 		this.courseWorkWeight = new ArrayList<Integer>();
-
 	}
 
 	/**
@@ -199,12 +204,17 @@ public class Course {
 	/**
 	 * create a course
 	 */
-	public void create(){
+	public void create(ArrayList<Professor> professors){
 		Scanner input = new Scanner(System.in);
 		System.out.println("Enter course Id: ");
 		this.course_id = Utility.getIntervalInput(1, Integer.MAX_VALUE);
 		System.out.println("Enter course name: ");
 		this.name = input.nextLine();
+
+		System.out.println("Enter the number of professor (not id): ");
+		for(int index = 0; index< professors.size(); index++)
+			System.out.print((index+1) + " " + professors.get(index).getName() + "\n");
+		this.professor = professors.get(Utility.getIntervalInput(1,professors.size())-1);
 
 		System.out.print("Enter the vacancy of lecture slot: ");
 		int vacancy = Utility.getIntervalInput(1,100);
