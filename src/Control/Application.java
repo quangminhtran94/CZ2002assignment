@@ -22,7 +22,7 @@ public class Application {
         Student tempStudent;
         int choice = 0;
         int noStudent, noCourse;
-        professors.add(new Professor(1, "minh"));
+//        professors.add(new Professor(1, "minh"));
         Scanner input = new Scanner(System.in);
 
 
