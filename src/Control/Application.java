@@ -6,26 +6,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Created by quangminhtran94 on 3/31/15.
+ * main method
  */
 
-/**
- * TODO: fulfill requirements, adding catch exception, adding flat file storage
- */
 
-/**
- * Requirement
- * 1. Add a student (done)
- * 2. Add a course (done)
- * 3. Register student for a course (this include registering for Tutorial/Lab classes) (done)
- * 4. Check available slot in a class (vacancy in a class) (done)
- * 5. Print student list by lecture, tutorial or laboratory session for a course. (done, not test)
- * 6. Enter course assessment components weightage (done, when adding a course)
- * 7. Enter coursework mark – inclusive of its components. (done)
- * 8. Enter exam mark (done)
- * 9. Print course statistics (done)
- * 10. Print student transcript. (done)
- */
 
 public class Application {
     public static void main(String[] args) {

@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**
- * Created by quangminhtran94 on 4/4/15.
+ * contains marks information of a student in a course
  */
 public class Record {
     private Student student;
@@ -14,11 +14,7 @@ public class Record {
     private double aveCourseWork;
     private double aveTotal;
 
-    /**
-     * Constructor
-     * @param student
-     * @param course
-     */
+
     public Record(Student student, Course course) {
         this.student = student;
         this.course = course;
@@ -27,9 +23,7 @@ public class Record {
         this.aveTotal=0;
     }
 
-    /**
-     * getter and setter
-     */
+
     public Student getStudent() {
         return student;
     }

@@ -6,9 +6,13 @@ import java.util.Objects;
 import java.util.Scanner;
 
 /**
- * Created by quangminhtran94 on 4/13/15.
+ * contain input methods
  */
 public class Utility {
+    /**
+     * validate and get integer input
+     * @return return integer input
+     */
     public static int getIntInput(){
         Scanner input = new Scanner(System.in);
         int output;
@@ -25,26 +29,11 @@ public class Utility {
         return output;
     }
 
-//    public static int getMaxInput(int max){
-//        Scanner input = new Scanner(System.in);
-//        int output;
-//        while(true){
-//            try{
-//                output = input.nextInt();
-//                if (output>max){
-//                    System.out.print("Your input is larger than the valid maximum, please re-enter: ");
-//                    continue;
-//                }else
-//                    break;
-//            }catch(Exception e){
-//                input.nextLine();
-//                System.out.print("Enter number please: ");
-//            }
-//        }
-//        input.nextLine();
-//        return output;
-//    }
-
+    /**
+     * validate and get an array of integer that has specific sum
+     * @param sum the value of desired sum
+     * @return arraylist of integers
+     */
     public static ArrayList<Integer> getSumInput(int sum){
         Scanner input = new Scanner(System.in);
         ArrayList<Integer> output = new ArrayList<Integer>();
@@ -71,7 +60,10 @@ public class Utility {
     }
 
     /**
-     * for input integer >= 0  and <= 100
+     * get and validate an integer input that smaller than max and larger than min
+     * @param min minimum value
+     * @param max maximum value
+     * @return the int input
      */
     public static int getIntervalInput(int min, int max){
         Scanner input = new Scanner(System.in);

@@ -7,16 +7,49 @@ import java.util.Scanner;
 
 
 public class Course {
-
+	/**
+	 * course id
+	 */
 	private int course_id;
+
+	/**
+	 * name of the course
+	 */
 	private String name;
+
+	/**
+	 * student list
+	 */
 	private ArrayList<Student> students;
+
+	/**
+	 * lecture list
+	 */
 	private ArrayList<Lecture> lectures;
+
+	/**
+	 * tutorial list
+	 */
 	private ArrayList<Tutorial> tutorials;
+
+	/**
+	 * lab list
+	 */
 	private ArrayList<Lab> labs;
+
+	/**
+	 * weight of final mark
+	 */
 	private int examWeight;
+
+	/**
+	 * coursework weights
+	 */
 	private ArrayList<Integer> courseWorkWeight;
 
+	/**
+	 * constructor Course()
+	 */
 	public Course(){
 		this.students = new ArrayList<Student>();
 		this.lectures = new ArrayList<Lecture>();
@@ -26,63 +59,138 @@ public class Course {
 
 	}
 
+	/**
+	 * overide the toString method, return name and id
+	 * @return name and id
+	 */
 	public String toString(){
 		return this.name + "with id = " + this.course_id;
 	}
-	
+
 	/**
-	 * getter and setter method
+	 * return course id
+	 * @return course id
 	 */
 	public int getCourse_id() {
 		return course_id;
 	}
+
+	/**
+	 * set course id
+	 * @param course_id course id
+	 */
 	public void setCourse_id(int course_id) {
 		this.course_id = course_id;
 	}
+
+	/**
+	 * return student list of this course
+	 * @return student list
+	 */
 	public ArrayList<Student> getStudent() {
 		return students;
 	}
+
+	/**
+	 * set student list of this course
+	 * @param students student list
+	 */
 	public void setStudent(ArrayList<Student> students) {
 		this.students = students;
 	}
+
+	/**
+	 * return course name
+	 * @return course name
+	 */
 	public String getName() {
 		return name;
 	}
+
+	/**
+	 * set course name
+	 * @param name desired name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * get lecture list of this course
+	 * @return lectures list
+	 */
 	public ArrayList<Lecture> getLecture() {
 		return lectures;
 	}
+
+	/**
+	 * set lecture list of this course
+	 * @param lectures lectures list
+	 */
 	public void setLecture(ArrayList<Lecture> lectures) {
 		this.lectures = lectures;
 	}
+
+	/**
+	 * get tuorial list of this course
+	 * @return tutorials list
+	 */
 	public ArrayList<Tutorial> getTutorial() {
 		return tutorials;
 	}
+
+	/**
+	 * set tutorial list of this course
+	 * @param tutorials desired tutorial lists
+	 */
 	public void setTutorial(ArrayList<Tutorial> tutorials) {
 		this.tutorials = tutorials;
 	}
+
+	/**
+	 * get lab list of this course
+	 * @return desired lab lists
+	 */
 	public ArrayList<Lab> getLab() {
 		return labs;
 	}
+
+	/**
+	 * set lab list of this course
+	 * @param labs lab list
+	 */
 	public void setLab(ArrayList<Lab> labs) {
 		this.labs = labs;
 	}
-	
+
+	/**
+	 * get weight of final mark
+	 * @return final mark weight
+	 */
 	public int getExamWeight() {
 		return examWeight;
 	}
 
+	/**
+	 * set weight of final mark
+	 * @param examWeight exam weight
+	 */
 	public void setExamWeight(int examWeight) {
 		this.examWeight = examWeight;
 	}
 
+	/**
+	 * get coursework weights of this course
+	 * @return array of coursework weight
+	 */
 	public ArrayList<Integer> getCourseWorkWeight() {
 		return courseWorkWeight;
 	}
 
+	/**
+	 * set coursework weights of this course
+	 * @param courseWorkWeight coursework weights
+	 */
 	public void setCourseWorkWeight(ArrayList<Integer> courseWorkWeight) {
 		this.courseWorkWeight = courseWorkWeight;
 	}
@@ -133,10 +241,10 @@ public class Course {
 		System.out.println("Course created successfully!");
 	}
 
-	
+
 	/**
-	 * Add a student to a course, requiring to enter lectures, tutorials and labs slot.
-	 * TODO vacancy for tutorial lab and lecture
+	 * add student s to this course
+	 * @param s student
 	 */
 	public void addStudent(Student s){
 		int index;
@@ -169,7 +277,6 @@ public class Course {
 			}
 
 			this.students.add(s);
-			s.addCourse(this);
 			System.out.println("Student " + s.getName() + " has been added to course " + this.getName() +" successfully");
 		}			
 	}
@@ -276,11 +383,9 @@ public class Course {
 	}
 
 
-
-
 	/**
-	 * print students list in lectures, labs or tutorials group
-	 * here I suppose there lectures, labs and tutorials implements 1 interface called CourseComponent
+	 * print student by course component of this course
+	 * @param type course component type
 	 */
 	public void printStudentListByGroup(String type){
 		if (this.hasAnyStudent()){
@@ -311,6 +416,10 @@ public class Course {
 
 	}
 
+	/**
+	 * check vacancy of *type* [lecture/tutorial/lab]
+	 * @param type course component type
+	 */
 	public void isVacancy(String type){
 		if (this.hasAnyStudent()){
 			int choice;
@@ -321,7 +430,7 @@ public class Course {
 						for(int index = 0; index< lectures.size(); index++)
 							System.out.print((index+1) + " " + lectures.get(index).getName() + "\n");
 						choice = Utility.getIntervalInput(1, lectures.size()) - 1;
-						this.lectures.get(choice).isAvaiable();
+						this.lectures.get(choice).isAvailable();
 					}else{
 						System.out.println("This course does not have any lecture slot");
 					}
@@ -332,7 +441,7 @@ public class Course {
 						for(int index = 0; index< tutorials.size(); index++)
 							System.out.print((index+1) + " " + tutorials.get(index).getName() + "\n");
 						choice = Utility.getIntervalInput(1, tutorials.size()) - 1;
-						this.tutorials.get(choice).isAvaiable();
+						this.tutorials.get(choice).isAvailable();
 					}else {
 						System.out.println("This course does not have any tutorial slot");
 					}
@@ -342,7 +451,7 @@ public class Course {
 						for(int index = 0; index< labs.size(); index++)
 							System.out.print((index+1) + " " + labs.get(index).getName() + "\n");
 						choice = Utility.getIntervalInput(1, labs.size()) - 1;
-						this.labs.get(choice).isAvaiable();
+						this.labs.get(choice).isAvailable();
 					}else{
 						System.out.println("This course does not have any lab slot");
 					}
@@ -357,6 +466,10 @@ public class Course {
 			System.out.println("This course has no student!");
 	}
 
+	/**
+	 * check if this course has any student
+	 * @return if this course has any student
+	 */
 	private boolean hasAnyStudent(){
 		if (this.students.isEmpty())
 			return false;
