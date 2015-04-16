@@ -9,14 +9,16 @@ public class CourseComponent {
     private String name;
     Course course;
     ArrayList<Student> students;
+    int vacancy;
 
     /**
      * constructor
      */
-    public CourseComponent(String name, Course course){
+    public CourseComponent(String name, Course course, int vacancy){
         this.name = name;
         this.course = course;
         this.students = new ArrayList<Student>();
+        this.vacancy = vacancy;
     }
 
     public CourseComponent(String name, ArrayList<Student> students) {
@@ -51,8 +53,13 @@ public class CourseComponent {
         this.name = name;
     }
 
+    public int getVacancy() {
+        return vacancy;
+    }
 
-
+    public void setVacancy(int vacancy) {
+        this.vacancy = vacancy;
+    }
 
     public String toString(){
         return name;
@@ -69,6 +76,12 @@ public class CourseComponent {
             System.out.println(index + ". " + student.toString());
             index++;
         }
+    }
 
+    public void isAvaiable(){
+        if (this.vacancy > this.students.size()){
+            System.out.println("This slot now already has " + this.students.size() + "/" + this.vacancy);
+        }else
+            System.out.println("This slot is full " + this.students.size() + "/" + this.vacancy);
     }
 }

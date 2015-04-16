@@ -48,11 +48,13 @@ public class Application {
                     tempCourse = new Course();
                     courseMng.create(tempCourse);
                     courses.add(tempCourse);
+                    courseMng.printCoursesList(courses);
                     break;
                 case 2:
                     tempStudent = new Student();
                     studentMng.create(tempStudent);
                     students.add(tempStudent);
+                    studentMng.printStudentsList(students);
                     break;
                 case 3:
                     System.out.println("Enter the number of student you want to add (not the id): ");
@@ -67,7 +69,7 @@ public class Application {
                     System.out.println("Enter the number of course you want to check vacancy (not the id): ");
                     courseMng.printCoursesList(courses);
                     noCourse = Utility.getIntervalInput(1, courses.size()) - 1;
-                    courseMng.checkVacancy(courses.get(noCourse));
+                    courseMng.isVacancy(courses.get(noCourse));
                     break;
                 case 5:
                     System.out.println("Enter the number of course you want to print students list (not the id): ");

@@ -10,7 +10,6 @@ public class Course {
 
 	private int course_id;
 	private String name;
-	private int vacancy;
 	private ArrayList<Student> students;
 	private ArrayList<Lecture> lectures;
 	private ArrayList<Tutorial> tutorials;
@@ -28,7 +27,7 @@ public class Course {
 	}
 
 	public String toString(){
-		return this.name;
+		return this.name + "with id = " + this.course_id;
 	}
 	
 	/**
@@ -52,12 +51,7 @@ public class Course {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getVacancy() {
-		return vacancy;
-	}
-	public void setVacancy(int vacancy) {
-		this.vacancy = vacancy;
-	}
+
 	public ArrayList<Lecture> getLecture() {
 		return lectures;
 	}
@@ -103,26 +97,31 @@ public class Course {
 		this.course_id = Utility.getIntervalInput(1, Integer.MAX_VALUE);
 		System.out.println("Enter course name: ");
 		this.name = input.nextLine();
-		System.out.println("Enter course vacancy: ");
-		this.vacancy = Utility.getIntervalInput(1, Integer.MAX_VALUE);
+
+		System.out.print("Enter the vacancy of lecture slot: ");
+		int vacancy = Utility.getIntervalInput(1,100);
 		System.out.println("Enter lectures (end when enter exit): ");
 		String name = input.nextLine();
 		while(!name.equals("exit")){
-			this.lectures.add(new Lecture(name, this));
+			this.lectures.add(new Lecture(name, this, vacancy));
 			name = input.next();
 		}
 
+		System.out.print("Enter the vacancy of tutorial slot: ");
+		vacancy = Utility.getIntervalInput(1, 100);
 		System.out.println("Enter tutorials (end when enter exit): ");
 		name = input.next();
 		while(!name.equals("exit")){
-			this.tutorials.add(new Tutorial(name, this));
+			this.tutorials.add(new Tutorial(name, this, vacancy));
 			name = input.next();
 		}
 
+		System.out.print("Enter the vacancy of lab slot: ");
+		vacancy = Utility.getIntervalInput(1, 100);
 		System.out.println("Enter labs (end when enter exit): ");
 		name = input.next();
 		while(!name.equals("exit")){
-			this.labs.add(new Lab(name, this));
+			this.labs.add(new Lab(name, this, vacancy));
 			name = input.next();
 		}
 
@@ -137,44 +136,44 @@ public class Course {
 	
 	/**
 	 * Add a student to a course, requiring to enter lectures, tutorials and labs slot.
+	 * TODO vacancy for tutorial lab and lecture
 	 */
 	public void addStudent(Student s){
 		int index;
 		if (this.students.contains(s))
 			System.out.println("This student has already added to this course!");
 		else{
-			System.out.println("Choose lectures slot: ");
-			for(index = 0; index< lectures.size(); index++)
-				System.out.print((index+1) + " " + lectures.get(index).getName() + "\n");
-			Scanner input = new Scanner(System.in);
-			index = Utility.getIntervalInput(1, lectures.size()) - 1;
-			lectures.get(index).addStudent(s);
-			
-			System.out.println("Choose tutorials slot: ");
-			for(index = 0; index< tutorials.size(); index++)
-				System.out.print((index+1) + " " + tutorials.get(index).getName() + "\n");
-			index = Utility.getIntervalInput(1, tutorials.size()) - 1;
-			tutorials.get(index).addStudent(s);
-			
-			System.out.println("Choose labs slot: ");
-			for(index = 0; index< labs.size(); index++)
-				System.out.print((index + 1) + " " + labs.get(index).getName() + "\n");
-			index = Utility.getIntervalInput(1, labs.size()) - 1;
-			labs.get(index).addStudent(s);
-			
+			if(!this.lectures.isEmpty()){
+				System.out.println("Choose lectures slot: ");
+				for(index = 0; index< lectures.size(); index++)
+					System.out.print((index+1) + " " + lectures.get(index).getName() + "\n");
+				Scanner input = new Scanner(System.in);
+				index = Utility.getIntervalInput(1, lectures.size()) - 1;
+				lectures.get(index).addStudent(s);
+			}
+
+			if(!this.tutorials.isEmpty()){
+				System.out.println("Choose tutorials slot: ");
+				for(index = 0; index< tutorials.size(); index++)
+					System.out.print((index+1) + " " + tutorials.get(index).getName() + "\n");
+				index = Utility.getIntervalInput(1, tutorials.size()) - 1;
+				tutorials.get(index).addStudent(s);
+			}
+
+			if(!this.labs.isEmpty()){
+				System.out.println("Choose labs slot: ");
+				for(index = 0; index< labs.size(); index++)
+					System.out.print((index + 1) + " " + labs.get(index).getName() + "\n");
+				index = Utility.getIntervalInput(1, labs.size()) - 1;
+				labs.get(index).addStudent(s);
+			}
+
 			this.students.add(s);
-			this.vacancy--;
 			s.addCourse(this);
 			System.out.println("Student " + s.getName() + " has been added to course " + this.getName() +" successfully");
 		}			
 	}
-	
-	public boolean isVacancy(){
-		if (this.vacancy <= 0)
-			return false;
-		else
-			return true;
-	}
+
 
 	/**
 	 * Print information of the course
@@ -310,6 +309,52 @@ public class Course {
 		}else
 			System.out.println("This course has no student!");
 
+	}
+
+	public void isVacancy(String type){
+		if (this.hasAnyStudent()){
+			int choice;
+			Scanner input = new Scanner(System.in);
+			while(true){
+				if(type.equals("lecture")){
+					if(!this.lectures.isEmpty()){
+						for(int index = 0; index< lectures.size(); index++)
+							System.out.print((index+1) + " " + lectures.get(index).getName() + "\n");
+						choice = Utility.getIntervalInput(1, lectures.size()) - 1;
+						this.lectures.get(choice).isAvaiable();
+					}else{
+						System.out.println("This course does not have any lecture slot");
+					}
+
+					break;
+				}else if(type.equals("tutorial")){
+					if(!this.tutorials.isEmpty()){
+						for(int index = 0; index< tutorials.size(); index++)
+							System.out.print((index+1) + " " + tutorials.get(index).getName() + "\n");
+						choice = Utility.getIntervalInput(1, tutorials.size()) - 1;
+						this.tutorials.get(choice).isAvaiable();
+					}else {
+						System.out.println("This course does not have any tutorial slot");
+					}
+					break;
+				}else if(type.equals("lab")){
+					if(!this.labs.isEmpty()){
+						for(int index = 0; index< labs.size(); index++)
+							System.out.print((index+1) + " " + labs.get(index).getName() + "\n");
+						choice = Utility.getIntervalInput(1, labs.size()) - 1;
+						this.labs.get(choice).isAvaiable();
+					}else{
+						System.out.println("This course does not have any lab slot");
+					}
+
+					break;
+				}else{
+					System.out.print("Please enter valid input [lecture/tutorial/lab]: ");
+					type = input.nextLine();
+				}
+			}
+		}else
+			System.out.println("This course has no student!");
 	}
 
 	private boolean hasAnyStudent(){
